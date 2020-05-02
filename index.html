@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<title>Google Drive上の画像ファイルに直リンクするための文字列変換というページ</title>
+
+	<style>
+		body{
+			font-family: Hiragino Sans, "ヒラギノ角ゴシック", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, "メイリオ", Sans-Serif;
+		}
+		h1 {
+			font-size: 2rem;
+		}
+		h2 {
+			font-size: 1.4rem;
+		}
+		footer {
+			font-size: .9rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="container my-2">
+		<header class="row mb-3">
+			<div class="col-12">
+				<h1>Google Drive上の画像ファイルに<br>
+				直リンクするための文字列変換というページ</h1>
+			</div>
+
+			<div class="col-12">
+				<p>下のフォームに画像の共有URLを入力して［変換］をクリックすると、直リンクのURLを取得できます。</p>
+			</div>
+		</header>
+
+		<div class="row mb-2">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">変換前の文字列</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<input type="text" class="form-control" id="shared-url" name="shared-url" placeholder="Googleドライブにあるファイルの共有URL">
+							</div>
+							<a style="width: 5rem;" href="#" id="submit" type="submit" class="btn btn-primary btn-sm">変換</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mb-5">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header">変換後の文字列</div>
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label for="shared-url">直接リンクURL</label>
+								<input type="text" class="form-control" id="direct-url" name="direct-url">
+							</div>
+							<a style="width: 5rem;" id="copy" class="btn btn-outline-secondary btn-sm">コピー</a>
+						</form>
+						<p class="mt-2">プレビュー画像</p>
+						<div id="preview-image"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="col-12">
+				<p id="copyright"></p>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script>
+		const date = new Date(), year = date.getFullYear();
+		document.getElementById('copyright').innerHTML = '&#169;' + year + ' tecking.';
+
+		function copy() {
+			let copyText = document.querySelector("#direct-url");
+			copyText.select();
+			document.execCommand("copy");
+			}
+
+		document.querySelector("#copy").addEventListener("click", copy);
+
+		$(function() {
+
+			$('#submit').click(function() {
+				let url, id, img;
+				function escapeHTML(val) {
+					return $('<div>').text(val).html();
+				};
+
+				url = encodeURI( $('#shared-url').val() );
+				if ( url.indexOf( 'drive.google.com', 0 ) == -1 ) {
+					alert( 'Google DriveのURLではありません' );
+					return false;
+				}
+				console.log (url);
+
+				id  = url.match(/(^.+?file\/d\/)(.+?)(\/.+?$)/);
+				img = 'https://drive.google.com/uc?export=view&id=' + id[2];
+				$('#direct-url').val(img);
+				$('#preview-image img').remove();
+				$('#preview-image').append('<img style="width: 200px;" class="img-thumbnail" src="' + img + '" alt="">');
+			});
+
+		});
+	</script>
+</body>
+</html>
+
+<!-- https://drive.google.com/file/d/1oEk1yF60vjY2xdH3FbWL8S-Im4KIEPJQ/view?usp=sharing -->
+<!-- https://drive.google.com/file/d/1oEk1yF60vjY2xdH3FbWL8S-Im4KIEPJQ/view?usp=sharing -->
