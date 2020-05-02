@@ -21,7 +21,6 @@ $(function() {
 			alert( 'Google DriveのURLではありません' );
 			return false;
 		}
-		console.log (url);
 
 		id  = url.match(/(^.+?)(file|open)(\/d\/|\?id=)(.+?)(\/.+?)?$/);
 		img = 'https://drive.google.com/uc?export=view&id=' + id[4];
