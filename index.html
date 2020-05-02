@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="./style.css">
 
 	<title>Google Drive上の画像ファイルに直リンクするための文字列変換というページ</title>
 
@@ -31,7 +32,7 @@
 			</div>
 
 			<div class="col-12">
-				<p>下のフォームに画像の共有URLを入力して［変換］をクリックすると、直リンクのURLを取得できます。</p>
+				<p>下のフォームに画像の共有URLを入力して［変換］をクリックすると、直リンクのURLを取得できます。ご利用は計画的に。</p>
 			</div>
 		</header>
 
@@ -83,44 +84,6 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script>
-		const date = new Date(), year = date.getFullYear();
-		document.getElementById('copyright').innerHTML = '&#169;' + year + ' tecking.';
-
-		function copy() {
-			let copyText = document.querySelector("#direct-url");
-			copyText.select();
-			document.execCommand("copy");
-			}
-
-		document.querySelector("#copy").addEventListener("click", copy);
-
-		$(function() {
-
-			$('#submit').click(function() {
-				let url, id, img;
-				function escapeHTML(val) {
-					return $('<div>').text(val).html();
-				};
-
-				url = encodeURI( $('#shared-url').val() );
-				if ( url.indexOf( 'drive.google.com', 0 ) == -1 ) {
-					alert( 'Google DriveのURLではありません' );
-					return false;
-				}
-				console.log (url);
-
-				id  = url.match(/(^.+?file\/d\/)(.+?)(\/.+?$)/);
-				img = 'https://drive.google.com/uc?export=view&id=' + id[2];
-				$('#direct-url').val(img);
-				$('#preview-image img').remove();
-				$('#preview-image').append('<img style="width: 200px;" class="img-thumbnail" src="' + img + '" alt="">');
-			});
-
-		});
-	</script>
+	<script src="./script.js"></script>
 </body>
 </html>
-
-<!-- https://drive.google.com/file/d/1oEk1yF60vjY2xdH3FbWL8S-Im4KIEPJQ/view?usp=sharing -->
-<!-- https://drive.google.com/file/d/1oEk1yF60vjY2xdH3FbWL8S-Im4KIEPJQ/view?usp=sharing -->
