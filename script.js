@@ -23,8 +23,8 @@ $(function() {
 		}
 		console.log (url);
 
-		id  = url.match(/(^.+?file\/d\/)(.+?)(\/.+?$)/);
-		img = 'https://drive.google.com/uc?export=view&id=' + id[2];
+		id  = url.match(/(^.+?)(file|open)(\/d\/|\?id=)(.+?)(\/.+?)?$/);
+		img = 'https://drive.google.com/uc?export=view&id=' + id[4];
 		$('#direct-url').val(img);
 		$('#preview-image img').remove();
 		$('#preview-image').append('<img style="width: 200px;" class="img-thumbnail" src="' + img + '" alt="">');
