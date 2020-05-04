@@ -12,3 +12,6 @@ h2 {
 footer {
 	font-size: .9rem;
 }
+.card-body .btn {
+	width: 5rem;
+}
